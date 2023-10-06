@@ -1,13 +1,9 @@
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.bouncycastle.jcajce.provider.asymmetric.ecgost12.ECGOST2012SignatureSpi256;
+package POM;
+
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
-import java.time.Duration;
 
 public class E19_4_POM_SubmitOrderTest extends E20_1_CreateBaseTest {
 

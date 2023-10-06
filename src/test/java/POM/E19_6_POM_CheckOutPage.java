@@ -1,5 +1,5 @@
-import com.beust.ah.A;
-import org.openqa.selenium.By;
+package POM;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;

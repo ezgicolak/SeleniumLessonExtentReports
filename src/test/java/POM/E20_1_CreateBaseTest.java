@@ -1,13 +1,17 @@
+package POM;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.Before;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.Duration;
@@ -25,7 +29,7 @@ public class E20_1_CreateBaseTest {
         //properties class
 
         Properties prop = new Properties();
-        FileInputStream fis = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\java\\GlobalData.properties");
+        FileInputStream fis = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\java\\POM\\GlobalData.properties");
         prop.load(fis);
         String browserName = prop.getProperty("browser");
 
@@ -51,7 +55,7 @@ public class E20_1_CreateBaseTest {
 
     }
 
-    @BeforeMethod
+    @BeforeMethod (alwaysRun = true)
     public E19_1_POM_LoginPage launchApplication() throws IOException {
 
         driver = initializerDriver();
@@ -62,6 +66,14 @@ public class E20_1_CreateBaseTest {
 
     }
 
+    public String getScreenshot (String testCaseName,WebDriver driver) throws IOException{
+        TakesScreenshot ts=(TakesScreenshot) driver;
+        File source = ts.getScreenshotAs(OutputType.FILE);
+        File file = new File(System.getProperty("C:\\Users\\ezgic\\OneDrive\\Belgeler\\SeleniumLessonExtentReports\\reports\\"+ testCaseName+ ".png"));
+        FileUtils.copyFile(source,file);
+        return System.getProperty("C:\\Users\\ezgic\\OneDrive\\Belgeler\\SeleniumLessonExtentReports\\reports\\"+ testCaseName+ ".png");
+
+    }
      @AfterMethod
      public void tearDown()  {
         driver.close();

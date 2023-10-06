@@ -16,7 +16,7 @@ public class ExtentReportDemo {
     @BeforeTest
     public void setupExtentReports() {
         ExtentHtmlReporter reporter = new ExtentHtmlReporter("C:\\Users\\ezgic\\OneDrive\\Belgeler\\SeleniumLessonExtentReports\\reports\\index.html");
-        
+
         reporter.config().setReportName("Automation Results");
         reporter.config().setDocumentTitle("Test Results");
 
