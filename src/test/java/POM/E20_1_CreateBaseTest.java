@@ -87,20 +87,14 @@ public class E20_1_CreateBaseTest {
 
 
 
-    public String takeScreenshotAndSave() {
-        try {
-            // Ekran görüntüsü al
-            TakesScreenshot screenshot = (TakesScreenshot) driver;
-            byte[] screenshotBytes = screenshot.getScreenshotAs(OutputType.BYTES);
+    public String getScreenshot(String testCaseName,WebDriver driver) throws IOException {
 
-            // Ekran görüntüsünü kaydet ve dosya yolunu döndür
-            String filePath = "screenshots/screenshot.png";
-            Files.write(Paths.get(filePath), screenshotBytes);
-            return filePath;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
+        TakesScreenshot ts = (TakesScreenshot) driver;
+        File source = ts.getScreenshotAs(OutputType.FILE);
+        File file = new File(System.getProperty("user.dir") + "//reports//" + testCaseName +".png");
+        FileUtils.copyFile(source,file);
+        return System.getProperty("user.dir") + "//reports//" + testCaseName +".png";
+
     }
 
     }

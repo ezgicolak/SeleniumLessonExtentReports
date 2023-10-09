@@ -24,8 +24,9 @@ public class ListenerTest extends E20_1_CreateBaseTest implements ITestListener 
 
   @Override
     public void onTestStart(ITestResult result) {
-      
-     test = extent.createTest(result.getMethod().getMethodName());}
+
+     test = extent.createTest(result.getMethod().getMethodName());
+  }
 
     @Override
     public void onTestSuccess(ITestResult result) {
@@ -38,32 +39,32 @@ public class ListenerTest extends E20_1_CreateBaseTest implements ITestListener 
     public void onTestFailure(ITestResult result) {
         // TODO Auto-generated method stub
 
-        test = extent.createTest("Ekran Görüntüsü Testi", "Ekran görüntüsü yakalama ve rapora ekleme.");
-
-        if (result.getStatus() == ITestResult.FAILURE) {
-            try {
-                // Ekran görüntüsü al
-                TakesScreenshot screenshot = (TakesScreenshot) driver;
-                byte[] screenshotBytes = screenshot.getScreenshotAs(OutputType.BYTES);
-
-                // Ekran görüntüsünü rapora ekleyin
-                test.log(Status.FAIL, "Test başarısız. Ekran görüntüsü:",
-                        MediaEntityBuilder.createScreenCaptureFromBase64String(
-                                Base64.getEncoder().encodeToString(screenshotBytes)).build());
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
+       test.fail(result.getThrowable());
+        try {
+            driver = (WebDriver) result.getTestClass().getRealClass().getField("driver")
+                    .get(result.getInstance());
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
         }
+        String filePath = null;
+        try {
+            filePath = getScreenshot(result.getMethod().getMethodName(),driver);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            test.addScreenCaptureFromPath(filePath,result.getMethod().getMethodName());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+  }
 
-
-        //Screenshot ,attach to report
-
-
-
-    }
+  @Override
+    public void onFinish(ITestContext context){
+      extent.flush();
+  }
 }
 
 
